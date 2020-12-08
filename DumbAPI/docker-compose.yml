@@ -19,7 +19,7 @@ services:
                 container_name: dumbAPIcontainer
                 environment:
                         DATABASE_PASSWORD: password
-                        DATABASE_DOMAIN: dumbAPIdatabase
+                        DATABASE_DOMAIN: database
                         DATABASE_SCHEME: dumbapi
                 ports: 
                         - "8083:8083"
@@ -29,6 +29,8 @@ services:
                                          - dumbapi
                 volumes:
                         - $HOME/.m2:/root/.m2
+                depends_on:
+                        - database
 networks:
         service-discovery-network:
                 name: service-discovery-network

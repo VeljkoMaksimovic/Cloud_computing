@@ -22,7 +22,7 @@ services:
                         DATABASE_DOMAIN: database
                         DATABASE_SCHEME: dumbapi
                 ports: 
-                        - "8083:8083"
+                        - "8081:8081"
                 networks:
                         service-discovery-network:
                                  aliases:

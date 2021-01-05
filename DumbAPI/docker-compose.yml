@@ -15,8 +15,7 @@ services:
         volumes:
             - mysqldatabase:/var/lib/mysql
     dumbAPI1:
-        build: .
-        image: dumbapiimage
+        image: veljkomaxi97/cloud_computing
         container_name: dumbAPIcontainer
         environment:
             DATABASE_USERNAME: root
@@ -33,8 +32,7 @@ services:
         depends_on:
             - database
     dumbAPI2:
-        build: .
-        image: dumbapiimage
+        image: veljkomaxi97/cloud_computing 
         container_name: dumbAPIcontainer2
         environment:
             DATABASE_USERNAME: root

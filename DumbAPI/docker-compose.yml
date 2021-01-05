@@ -1,38 +1,68 @@
 version: '3.5'
 services:
- database:
-                image: mysql
-                cap_add:
-                        - SYS_NICE  # CAP_SYS_NICE
-                container_name: mysqlDatabase
-                hostname: mysql-database
-                networks:
-                        service-discovery-network:
-                                aliases:
-                                        - database
-                environment:
-                        MYSQL_ROOT_PASSWORD: password
-                        MYSQL_DATABASE: dumbAPIdatabase
-                volumes:
-                        - mysqldatabase:/var/lib/mysql
- dumbAPI:
-                build: .
-                image: dumbapiimage
-                container_name: dumbAPIcontainer
-                environment:
-                        DATABASE_PASSWORD: password
-                        DATABASE_DOMAIN: database
-                        DATABASE_SCHEME: dumbapi
-                ports: 
-                        - "8081:8081"
-                networks:
-                        service-discovery-network:
-                                 aliases:
-                                         - dumbapi
-                volumes:
-                        - $HOME/.m2:/root/.m2
-                depends_on:
-                        - database
+    database:
+        image: mysql
+        cap_add:
+            - SYS_NICE  # CAP_SYS_NICE
+        container_name: mysqlDatabase
+        hostname: mysql-database
+        networks:
+            service-discovery-network:
+                aliases:
+                    - database
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - mysqldatabase:/var/lib/mysql
+    dumbAPI1:
+        build: .
+        image: dumbapiimage
+        container_name: dumbAPIcontainer
+        environment:
+            DATABASE_USERNAME: root
+            DATABASE_PASSWORD: password
+            DATABASE_DOMAIN: database
+            DATABASE_SCHEME: dumbapi1
+            INSTANCE: INSTANCE1
+        networks:
+            service-discovery-network:
+                aliases:
+                    - dumbapi
+        volumes:
+            - $HOME/.m2:/root/.m2
+        depends_on:
+            - database
+    dumbAPI2:
+        build: .
+        image: dumbapiimage
+        container_name: dumbAPIcontainer2
+        environment:
+            DATABASE_USERNAME: root
+            DATABASE_PASSWORD: password
+            DATABASE_DOMAIN: database
+            DATABASE_SCHEME: dumbapi2
+            INSTANCE: INSTANCE2
+        networks:
+            service-discovery-network:
+                aliases:
+                    - dumbapi2
+        volumes:
+            - $HOME/.m2:/root/.m2
+        depends_on:
+            - database
+    nginx:
+        build: ./nginx
+        image: mynginx
+        container_name: my_ngingx
+        ports:
+            - "8080:8080"
+        networks:
+            service-discovery-network:
+                aliases:
+                    - nginx
+        depends_on:
+            - dumbAPI1
+            - dumbAPI2 
 networks:
         service-discovery-network:
                 name: service-discovery-network

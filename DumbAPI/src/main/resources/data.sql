@@ -1,1 +1,1 @@
-INSERT IGNORE INTO `dumbapi`.`counter` (`id`, `number`) VALUES ('0', '0');
+INSERT IGNORE INTO `counter` (`id`, `number`) VALUES ('0', '0');

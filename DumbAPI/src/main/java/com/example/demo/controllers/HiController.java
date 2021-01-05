@@ -25,6 +25,6 @@ public class HiController {
         Integer number = counter.getNumber();
         counter.setNumber(number+1);
         counterRepository.save(counter);
-        return new ResponseEntity<>("Hi " + number, HttpStatus.OK);
+        return new ResponseEntity<>(System.getenv("INSTANCE") + " counter-" + number, HttpStatus.OK);
     }
 }
